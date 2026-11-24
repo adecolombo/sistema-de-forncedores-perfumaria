@@ -1,0 +1,202 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--site se adequa a tela que foi exposto; tablet, celular, computador...-->
+    <title>Perfumaria da Ade</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400..900&family=Roboto:wght@100..900&display=swap');
+
+     * {
+            box-sizing: border-box;
+        }
+        /* faz com que o navegador inclua o preenchimento interno (padding) e a borda (border) 
+        dentro da largura e altura definidas para um elemento.Ajuda a evitar que imagens, botões e outros elementos ultrapassem os
+         tamanhos definidos, facilitando a organização do layout e a responsividade.*/
+        body {
+            background-image: linear-gradient(to right, #f4aeba, #fdfdcb);
+            margin: 0;/*elimina a margem padrão que o navegador coloca no body.*/
+            padding: 20px;/* espaço interno de 20 pixels, evitando que o conteúdo fique encostado nas bordas da tela.*/
+            font-family: "Roboto", sans-serif; /*fonte usada para as informações*/
+        }
+
+        h1 {
+            font-family: "Playfair Display", serif;
+            background-color: #c54c82;
+            width: 90%;
+            max-width: 600px; /*não ultrapassará 600 pixels de largura.*/
+            text-align: center;
+            color: #fefee6;
+            min-height: 100px; /*nunca terá menos de 100 pixels de altura*/
+            margin: auto;
+            padding: 20px; /*espaçamento interno de 20 pixels entre o conteúdo e as bordas do elemento*/ 
+            border-radius: 20px;
+            font-size: 2rem; /*rem= 16px*/
+        }
+
+        .produtos {
+            display: grid; /*permitindo organizar os produtos em linhas e colunas*/
+            grid-template-columns: 1fr; /*cria inicialmente uma coluna que ocupa todo o espaço disponível*/
+            justify-content: center;
+            gap: 20px;
+            max-width: 1100px; /*limita a largura máxima da área dos produtos.*/
+            margin: 30px auto; /*30 pixels de margem vertical e centraliza horizontalmente o conjunto de produtos.*/
+            /*flex-wrap: wrap foi retirado porque o Grid organiza automaticamente os elementos conforme as colunas definidas.*/
+        }
+
+        button {
+            /*margin-top retirado por causa do espaçamento do gap no .produtos*/
+            background-color: #c54c82;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            width: 100%; /*Faz o botão ocupar toda a largura disponível, melhorando a responsividade*/
+            min-height: 250px; /*Se o conteúdo precisar de mais espaço, o botão poderá aumentar de tamanho*/
+            font-family: "Roboto", sans-serif;
+            font-size: 1.2rem; /*essa unidade 'rem' é pra facilitar a adaptação do texto*/
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        button img {
+            width: 130px;
+            height: 140px;
+            object-fit: contain;
+        }
+
+        button:hover {
+            background-color: #a83d6d;
+        }
+
+        @media (min-width: 600px) { /*Em telas a partir de 600px, os produtos passam a ser organizados em 2 colunas*/
+            .produtos {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 900px) { /*Em telas a partir de 600px, os produtos passam a ser organizados em 3 colunas*/
+            .produtos {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 400px) {/* Em celulares com telas menores, reduz o tamanho das fontes para melhorar a visualização. */
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            button {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Sistema de Fornecedores da Perfumaria da Ade</h1>
+
+    <div class="produtos">
+
+        <button onclick="clicouNoBotao()">
+            <img src="img/perfumewepink.jpe" alt="Perfume da Wepink" loading="lazy"> <!-- LOADING LAZY:Uma técnica de otimização de desempenho web e um atributo HTML que atrasa o download de recursos não essenciais — como imagens fora da tela e iframes — até que o usuário role a página próximo a eles-->
+            Vender Perfume da Wepink, $90,00
+        </button>
+
+        <button onclick="clicouNoOutroBotao()">
+            <img src="img/bodysplashwepink.jpe" alt="Body Splash da Wepink" loading="lazy"> <!--'alt' descreve a imagem-->
+            Vender Body Splash da Wepink, $35,00
+        </button>
+
+        <button onclick="clicouNoTerceiroBotao()">
+            <img src="img/perfumeoboticario.jpe" alt="Perfume de O Boticário" loading="lazy"> <!--padronização dos caminhos de imagem-->
+            Vender Perfume da O Boticario, $100,00
+        </button>
+
+        <button onclick="clicouNoQuartoBotao()">
+            <img src="img/bodysplashoboticario.jpe" alt="Body Splash de O Boticário" loading="lazy">
+            Vender Body Splash da O Boticario, $30,00
+        </button>
+
+        <button onclick="clicouNoQuintoBotao()">
+            <img src="img/perfumenatura.jpe" alt="Perfume da Natura" loading="lazy">
+            Vender Perfume da Natura, $50,00
+        </button>
+
+    </div>
+
+    <script>
+
+        class Produto { //modelo para todos os perfemes e body splashes cadastrados
+
+            constructor(nomeProduto, preco, estoque) { //recebe as informações necessárias para cadastrar cada produto
+                this.nome = nomeProduto;
+                this.preco = preco;
+                this.estoque = estoque;
+            }
+
+            vender() { //metodo -> ação
+
+                if (this.estoque > 0) { //verificação do estoque
+
+                    this.estoque = this.estoque - 1; //diminui do estoque
+
+                    alert( //sinaliza a venda
+                        "Voce vendeu: " + this.nome +
+                        " por R$ " + this.preco +
+                        ". Restam: " + this.estoque
+                    );
+
+                } else { //caso nao tenha no estoque
+
+                    alert("O produto: " + this.nome + " acabou");
+
+                }
+            }
+        }
+
+        const produto1 = new Produto("Perfume da Wepink", 90, 20); //novo objeto a partir da classe Produto
+
+        function clicouNoBotao() {
+            produto1.vender();
+        }
+
+        const produto2 = new Produto("Body Splash da Wepink", 35, 15);
+
+        function clicouNoOutroBotao() {
+            produto2.vender();
+        }
+
+        const produto3 = new Produto("Perfume da O Boticario", 100, 21);
+
+        function clicouNoTerceiroBotao() {
+            produto3.vender();
+        }
+
+        const produto4 = new Produto("Body Splash da O Boticario", 30, 18);
+
+        function clicouNoQuartoBotao() {
+            produto4.vender();
+        }
+
+        const produto5 = new Produto("Perfume da Natura", 50, 7);
+
+        function clicouNoQuintoBotao() {
+            produto5.vender();
+        }
+
+    </script>
+
+</body>
+
+</html>
